@@ -8,9 +8,12 @@ export const cars = pgTable("cars", {
     .notNull()
     .references(() => users.id),
   name: text("name").notNull(),
+  make: text("make").notNull(),
   model: text("model").notNull(),
   year: integer("year").notNull(),
   checks: text("checks"),
+  photoUrl: text("photo_url"),
+
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });

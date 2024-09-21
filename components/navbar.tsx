@@ -1,47 +1,55 @@
 "use client";
-import { CreditCard, Menu, Settings, Users, X } from "lucide-react";
-import React, { useState } from "react";
+import { Car, Menu, Users, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "./ui/sheet";
 import { ModeToggle } from "./mode-toggle";
+import { DashboardIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [activeSection, setActiveSection] = useState("mycard");
+  const pathname = usePathname();
 
   const NavItems = ({ onClick }: { onClick?: () => void }) => (
     <>
       <Button
-        variant={activeSection === "mycard" ? "default" : "ghost"}
+        asChild
+        variant={pathname === "/me" ? "default" : "ghost"}
         onClick={() => {
-          setActiveSection("mycard");
           onClick?.();
         }}
         className="w-full justify-start"
       >
-        <CreditCard className="mr-2 h-4 w-4" />
-        My Card
+        <Link href="/me">
+          <DashboardIcon className="mr-2 h-4 w-4" />
+          Dashboard
+        </Link>
       </Button>
       <Button
-        variant={activeSection === "myteam" ? "default" : "ghost"}
+        asChild
+        variant={pathname === "/me/my-car" ? "default" : "ghost"}
         onClick={() => {
-          setActiveSection("myteam");
           onClick?.();
         }}
         className="w-full justify-start"
       >
-        <Users className="mr-2 h-4 w-4" />
-        My Team
+        <Link href="/me/my-car">
+          <Car className="mr-2 h-4 w-4" />
+          My Car
+        </Link>
       </Button>
       <Button
-        variant={activeSection === "config" ? "default" : "ghost"}
+        asChild
+        variant={pathname === "/me/team" ? "default" : "ghost"}
         onClick={() => {
-          setActiveSection("config");
           onClick?.();
         }}
         className="w-full justify-start"
       >
-        <Settings className="mr-2 h-4 w-4" />
-        Config
+        <Link href="/me/team">
+          <Users className="mr-2 h-4 w-4" />
+          Team
+        </Link>
       </Button>
       <div>
         <ModeToggle />

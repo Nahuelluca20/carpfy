@@ -15,6 +15,20 @@
       "when": 1726878441712,
       "tag": "0001_tired_loners",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1726931139974,
+      "tag": "0002_wandering_wildside",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1726955316755,
+      "tag": "0003_empty_the_call",
+      "breakpoints": true
     }
   ]
 }

@@ -28,8 +28,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, Plus, X, ChevronRight } from "lucide-react";
+import { CalendarIcon, X } from "lucide-react";
 import { format } from "date-fns";
+import MyCarCard from "./my-car-card";
 
 interface TeamMember {
   id: number;
@@ -160,246 +161,241 @@ export default function Sarasa() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">Car Improvement Dashboard</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">
-                Team Members
-              </CardTitle>
-              <CardDescription>Manage your team</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {team.map((member) => (
-                  <Avatar key={member.id} className="w-8 h-8">
-                    <AvatarImage src={member.avatar} alt={member.name} />
-                    <AvatarFallback>{member.name[0]}</AvatarFallback>
+      {/* <h1 className="text-4xl font-bold mb-8">Car Improvement Dashboard</h1> */}
+      <MyCarCard />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg font-medium">Team Members</CardTitle>
+            <CardDescription>Manage your team</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {team.map((member) => (
+                <Avatar key={member.id} className="w-8 h-8">
+                  <AvatarImage src={member.avatar} alt={member.name} />
+                  <AvatarFallback>{member.name[0]}</AvatarFallback>
+                </Avatar>
+              ))}
+            </div>
+            <div className="flex space-x-2">
+              <Input
+                placeholder="New member name"
+                value={newMember}
+                onChange={(e) => setNewMember(e.target.value)}
+              />
+              <Button onClick={addTeamMember} variant="secondary">
+                Add
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg font-medium">Cars</CardTitle>
+            <CardDescription>Your {`team's `} vehicles</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {cars.map((car) => (
+                <div key={car.id} className="flex items-center space-x-4">
+                  <Avatar className="w-8 h-8">
+                    <AvatarImage src={car.image} alt={car.name} />
+                    <AvatarFallback>{car.name[0]}</AvatarFallback>
                   </Avatar>
-                ))}
-              </div>
-              <div className="flex space-x-2">
-                <Input
-                  placeholder="New member name"
-                  value={newMember}
-                  onChange={(e) => setNewMember(e.target.value)}
-                />
-                <Button onClick={addTeamMember} variant="secondary">
-                  Add
+                  <div>
+                    <p className="font-medium">{car.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Owner: {car.owner.name}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full">
+                  Add New Car
                 </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Cars</CardTitle>
-              <CardDescription>Your team's vehicles</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {cars.map((car) => (
-                  <div key={car.id} className="flex items-center space-x-4">
-                    <Avatar className="w-8 h-8">
-                      <AvatarImage src={car.image} alt={car.name} />
-                      <AvatarFallback>{car.name[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium">{car.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        Owner: {car.owner.name}
-                      </p>
-                    </div>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add New Car</DialogTitle>
+                  <DialogDescription>
+                    Enter the details of the new car.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="name" className="text-right">
+                      Name
+                    </Label>
+                    <Input
+                      id="name"
+                      value={newCar.name}
+                      onChange={(e) =>
+                        setNewCar({ ...newCar, name: e.target.value })
+                      }
+                      className="col-span-3"
+                    />
                   </div>
-                ))}
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="w-full">
-                    Add New Car
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Add New Car</DialogTitle>
-                    <DialogDescription>
-                      Enter the details of the new car.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="name" className="text-right">
-                        Name
-                      </Label>
-                      <Input
-                        id="name"
-                        value={newCar.name}
-                        onChange={(e) =>
-                          setNewCar({ ...newCar, name: e.target.value })
-                        }
-                        className="col-span-3"
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="image" className="text-right">
-                        Image URL
-                      </Label>
-                      <Input
-                        id="image"
-                        value={newCar.image}
-                        onChange={(e) =>
-                          setNewCar({ ...newCar, image: e.target.value })
-                        }
-                        className="col-span-3"
-                      />
-                    </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="image" className="text-right">
+                      Image URL
+                    </Label>
+                    <Input
+                      id="image"
+                      value={newCar.image}
+                      onChange={(e) =>
+                        setNewCar({ ...newCar, image: e.target.value })
+                      }
+                      className="col-span-3"
+                    />
                   </div>
-                  <DialogFooter>
-                    <Button onClick={addCar}>Add Car</Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </CardFooter>
-          </Card>
+                </div>
+                <DialogFooter>
+                  <Button onClick={addCar}>Add Car</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </CardFooter>
+        </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">
-                Improvements
-              </CardTitle>
-              <CardDescription>Scheduled car improvements</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {improvements.map((improvement) => (
-                  <div
-                    key={improvement.id}
-                    className="flex justify-between items-start"
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg font-medium">Improvements</CardTitle>
+            <CardDescription>Scheduled car improvements</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {improvements.map((improvement) => (
+                <div
+                  key={improvement.id}
+                  className="flex justify-between items-start"
+                >
+                  <div>
+                    <p className="font-medium">
+                      {cars.find((car) => car.id === improvement.carId)?.name}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {improvement.description}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {improvement.date
+                        ? format(improvement.date, "MMM d, yyyy")
+                        : "Date not set"}
+                    </p>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeImprovement(improvement.id)}
                   >
-                    <div>
-                      <p className="font-medium">
-                        {cars.find((car) => car.id === improvement.carId)?.name}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {improvement.description}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {improvement.date
-                          ? format(improvement.date, "MMM d, yyyy")
-                          : "Date not set"}
-                      </p>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeImprovement(improvement.id)}
-                    >
-                      <X className="h-4 w-4" />
-                      <span className="sr-only">Remove improvement</span>
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="outline" className="w-full">
-                    Add Improvement
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">Remove improvement</span>
                   </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Add New Improvement</DialogTitle>
-                    <DialogDescription>
-                      Schedule a new car improvement.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="car" className="text-right">
-                        Car
-                      </Label>
-                      <select
-                        id="car"
-                        className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        value={newImprovement.carId}
-                        onChange={(e) =>
-                          setNewImprovement({
-                            ...newImprovement,
-                            carId: Number(e.target.value),
-                          })
-                        }
-                      >
-                        <option value={0}>Select a car</option>
-                        {cars.map((car) => (
-                          <option key={car.id} value={car.id}>
-                            {car.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="description" className="text-right">
-                        Description
-                      </Label>
-                      <Input
-                        id="description"
-                        value={newImprovement.description}
-                        onChange={(e) =>
-                          setNewImprovement({
-                            ...newImprovement,
-                            description: e.target.value,
-                          })
-                        }
-                        className="col-span-3"
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="date" className="text-right">
-                        Date
-                      </Label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            id="date"
-                            variant="outline"
-                            className={`col-span-3 justify-start text-left font-normal ${
-                              !newImprovement.date && "text-muted-foreground"
-                            }`}
-                          >
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {newImprovement.date ? (
-                              format(newImprovement.date, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={newImprovement.date || undefined}
-                            onSelect={(date) =>
-                              setNewImprovement({ ...newImprovement, date })
-                            }
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full">
+                  Add Improvement
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add New Improvement</DialogTitle>
+                  <DialogDescription>
+                    Schedule a new car improvement.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="car" className="text-right">
+                      Car
+                    </Label>
+                    <select
+                      id="car"
+                      className="col-span-3 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      value={newImprovement.carId}
+                      onChange={(e) =>
+                        setNewImprovement({
+                          ...newImprovement,
+                          carId: Number(e.target.value),
+                        })
+                      }
+                    >
+                      <option value={0}>Select a car</option>
+                      {cars.map((car) => (
+                        <option key={car.id} value={car.id}>
+                          {car.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                  <DialogFooter>
-                    <Button onClick={addImprovement}>Add Improvement</Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </CardFooter>
-          </Card>
-        </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="description" className="text-right">
+                      Description
+                    </Label>
+                    <Input
+                      id="description"
+                      value={newImprovement.description}
+                      onChange={(e) =>
+                        setNewImprovement({
+                          ...newImprovement,
+                          description: e.target.value,
+                        })
+                      }
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="date" className="text-right">
+                      Date
+                    </Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          id="date"
+                          variant="outline"
+                          className={`col-span-3 justify-start text-left font-normal ${
+                            !newImprovement.date && "text-muted-foreground"
+                          }`}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {newImprovement.date ? (
+                            format(newImprovement.date, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={newImprovement.date || undefined}
+                          onSelect={(date) =>
+                            setNewImprovement({ ...newImprovement, date })
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button onClick={addImprovement}>Add Improvement</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </CardFooter>
+        </Card>
       </div>
     </div>
   );
