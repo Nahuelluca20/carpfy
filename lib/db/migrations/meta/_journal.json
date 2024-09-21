@@ -8,6 +8,13 @@
       "when": 1726861609363,
       "tag": "0000_bouncy_tempest",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1726878441712,
+      "tag": "0001_tired_loners",
+      "breakpoints": true
     }
   ]
 }

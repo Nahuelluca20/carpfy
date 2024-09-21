@@ -3,6 +3,7 @@ import { CreditCard, Menu, Settings, Users, X } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { SheetTrigger, SheetContent, Sheet } from "./ui/sheet";
+import { ModeToggle } from "./mode-toggle";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("mycard");
@@ -42,6 +43,9 @@ export default function Navbar() {
         <Settings className="mr-2 h-4 w-4" />
         Config
       </Button>
+      <div>
+        <ModeToggle />
+      </div>
     </>
   );
 

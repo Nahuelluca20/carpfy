@@ -13,6 +13,7 @@ export const users = pgTable("users", {
   website: varchar("website", { length: 255 }),
   xUrl: varchar("x_url", { length: 255 }),
   githubUrl: varchar("github_url", { length: 255 }),
+  linkedInUrl: varchar("linkedin_url", { length: 255 }),
 
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
