@@ -10,8 +10,9 @@ import {
 
 import { Car } from "lucide-react";
 import { CarForm } from "./car-form";
-import { getUserIdByClerkId, getUserCar } from "../queries";
+import { getUserCars } from "../queries";
 import { currentUser } from "@clerk/nextjs/server";
+import { getUserIdByClerkId } from "@/actions/queries";
 
 export type CarType = {
   id: string;
@@ -33,7 +34,7 @@ export default async function MyCarCard() {
   }
 
   const userId = await getUserIdByClerkId(user.id);
-  const Cars: CarType[] = await getUserCar(userId);
+  const Cars: CarType[] = await getUserCars(userId);
 
   const serializableCars = Cars.map(({ make, name, model, year, checks }) => ({
     make,

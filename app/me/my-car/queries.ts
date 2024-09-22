@@ -1,22 +1,10 @@
 "use server";
 
 import { db } from "@/lib/db/drizzle";
-import { users } from "@/lib/db/schema/users"; // Import the users schema
 import { cars } from "@/lib/db/schema/cars";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-export async function getUserIdByClerkId(clerkUserId: string) {
-  const user = await db
-    .select({
-      id: users.id,
-    })
-    .from(users)
-    .where(eq(users.clerkUserId, clerkUserId))
-    .execute();
-
-  return user[0].id;
-}
 export type Car = {
   id: string;
   name: string;
@@ -30,7 +18,7 @@ export type Car = {
   photoUrl: string | null;
 };
 
-export async function getUserCar(userId: string): Promise<Car[]> {
+export async function getUserCars(userId: string): Promise<Car[]> {
   const userCar = await db
     .select()
     .from(cars)
@@ -38,6 +26,17 @@ export async function getUserCar(userId: string): Promise<Car[]> {
     .execute();
 
   return userCar;
+}
+
+export async function getUserFirstCar(userId: string): Promise<Car | null> {
+  const userCar = await db
+    .select()
+    .from(cars)
+    .where(eq(cars.userId, userId))
+    .limit(1)
+    .execute();
+
+  return userCar.length > 0 ? userCar[0] : null;
 }
 
 export interface CarDetails {
@@ -84,4 +83,25 @@ export async function editCar(carId: string, carDetails: CarDetails) {
     .execute();
 
   return updatedCar;
+}
+
+export async function uploadImageToCloudinary(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "sarasa");
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/ddonepbyh/image/upload`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Error al subir la imagen a Cloudinary");
+  }
+
+  const data = await response.json();
+  return data.secure_url;
 }

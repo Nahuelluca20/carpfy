@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <div>
       <Navbar />
-      <div className="max-w-6xl mx-auto">{children}</div>
+      <div className="max-w-6xl mx-auto p-8">{children}</div>
     </div>
   );
 }

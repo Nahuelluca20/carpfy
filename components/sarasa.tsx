@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon, X } from "lucide-react";
 import { format } from "date-fns";
-import MyCarCard from "./my-car-card";
+import MyCarCard from "../app/me/components/my-car-card";
 
 interface TeamMember {
   id: number;
@@ -54,144 +54,117 @@ interface Improvement {
 }
 
 export default function Sarasa() {
-  const [team, setTeam] = useState<TeamMember[]>([
-    { id: 1, name: "Alice", avatar: "/placeholder.svg?height=32&width=32" },
-    { id: 2, name: "Bob", avatar: "/placeholder.svg?height=32&width=32" },
-    { id: 3, name: "Charlie", avatar: "/placeholder.svg?height=32&width=32" },
-  ]);
-  const [cars, setCars] = useState<Car[]>([
-    {
-      id: 1,
-      name: "Red Speedster",
-      image: "/placeholder.svg?height=32&width=32",
-      owner: team[0],
-    },
-    {
-      id: 2,
-      name: "Blue Cruiser",
-      image: "/placeholder.svg?height=32&width=32",
-      owner: team[1],
-    },
-    {
-      id: 3,
-      name: "Green Machine",
-      image: "/placeholder.svg?height=32&width=32",
-      owner: team[2],
-    },
-  ]);
-  const [improvements, setImprovements] = useState<Improvement[]>([
-    {
-      id: 1,
-      carId: 1,
-      description: "Upgrade suspension",
-      proposedBy: team[0],
-      date: new Date(),
-    },
-    {
-      id: 2,
-      carId: 2,
-      description: "Install new exhaust",
-      proposedBy: team[1],
-      date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    },
-    {
-      id: 3,
-      carId: 3,
-      description: "Repaint exterior",
-      proposedBy: team[2],
-      date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-    },
-  ]);
-  const [newMember, setNewMember] = useState("");
-  const [newCar, setNewCar] = useState({ name: "", image: "" });
-  const [newImprovement, setNewImprovement] = useState({
-    carId: 0,
-    description: "",
-    date: null as Date | null,
-  });
+  // const [team, setTeam] = useState<TeamMember[]>([
+  //   { id: 1, name: "Alice", avatar: "/placeholder.svg?height=32&width=32" },
+  //   { id: 2, name: "Bob", avatar: "/placeholder.svg?height=32&width=32" },
+  //   { id: 3, name: "Charlie", avatar: "/placeholder.svg?height=32&width=32" },
+  // ]);
+  // const [cars, setCars] = useState<Car[]>([
+  //   {
+  //     id: 1,
+  //     name: "Red Speedster",
+  //     image: "/placeholder.svg?height=32&width=32",
+  //     owner: team[0],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Blue Cruiser",
+  //     image: "/placeholder.svg?height=32&width=32",
+  //     owner: team[1],
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Green Machine",
+  //     image: "/placeholder.svg?height=32&width=32",
+  //     owner: team[2],
+  //   },
+  // ]);
+  // const [improvements, setImprovements] = useState<Improvement[]>([
+  //   {
+  //     id: 1,
+  //     carId: 1,
+  //     description: "Upgrade suspension",
+  //     proposedBy: team[0],
+  //     date: new Date(),
+  //   },
+  //   {
+  //     id: 2,
+  //     carId: 2,
+  //     description: "Install new exhaust",
+  //     proposedBy: team[1],
+  //     date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  //   },
+  //   {
+  //     id: 3,
+  //     carId: 3,
+  //     description: "Repaint exterior",
+  //     proposedBy: team[2],
+  //     date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+  //   },
+  // ]);
+  // const [newMember, setNewMember] = useState("");
+  // const [newCar, setNewCar] = useState({ name: "", image: "" });
+  // const [newImprovement, setNewImprovement] = useState({
+  //   carId: 0,
+  //   description: "",
+  //   date: null as Date | null,
+  // });
 
-  const addTeamMember = () => {
-    if (newMember) {
-      setTeam([
-        ...team,
-        {
-          id: team.length + 1,
-          name: newMember,
-          avatar: "/placeholder.svg?height=32&width=32",
-        },
-      ]);
-      setNewMember("");
-    }
-  };
+  // const addTeamMember = () => {
+  //   if (newMember) {
+  //     setTeam([
+  //       ...team,
+  //       {
+  //         id: team.length + 1,
+  //         name: newMember,
+  //         avatar: "/placeholder.svg?height=32&width=32",
+  //       },
+  //     ]);
+  //     setNewMember("");
+  //   }
+  // };
 
-  const addCar = () => {
-    if (newCar.name && newCar.image) {
-      setCars([
-        ...cars,
-        {
-          id: cars.length + 1,
-          name: newCar.name,
-          image: newCar.image,
-          owner: team[0],
-        },
-      ]);
-      setNewCar({ name: "", image: "" });
-    }
-  };
+  // const addCar = () => {
+  //   if (newCar.name && newCar.image) {
+  //     setCars([
+  //       ...cars,
+  //       {
+  //         id: cars.length + 1,
+  //         name: newCar.name,
+  //         image: newCar.image,
+  //         owner: team[0],
+  //       },
+  //     ]);
+  //     setNewCar({ name: "", image: "" });
+  //   }
+  // };
 
-  const addImprovement = () => {
-    if (newImprovement.carId && newImprovement.description) {
-      setImprovements([
-        ...improvements,
-        {
-          id: improvements.length + 1,
-          carId: newImprovement.carId,
-          description: newImprovement.description,
-          proposedBy: team[0],
-          date: newImprovement.date,
-        },
-      ]);
-      setNewImprovement({ carId: 0, description: "", date: null });
-    }
-  };
+  // const addImprovement = () => {
+  //   if (newImprovement.carId && newImprovement.description) {
+  //     setImprovements([
+  //       ...improvements,
+  //       {
+  //         id: improvements.length + 1,
+  //         carId: newImprovement.carId,
+  //         description: newImprovement.description,
+  //         proposedBy: team[0],
+  //         date: newImprovement.date,
+  //       },
+  //     ]);
+  //     setNewImprovement({ carId: 0, description: "", date: null });
+  //   }
+  // };
 
-  const removeImprovement = (id: number) => {
-    setImprovements(improvements.filter((imp) => imp.id !== id));
-  };
+  // const removeImprovement = (id: number) => {
+  //   setImprovements(improvements.filter((imp) => imp.id !== id));
+  // };
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-8">
+    <div className="min-h-screen bg-background text-foreground">
       {/* <h1 className="text-4xl font-bold mb-8">Car Improvement Dashboard</h1> */}
-      <MyCarCard />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-medium">Team Members</CardTitle>
-            <CardDescription>Manage your team</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {team.map((member) => (
-                <Avatar key={member.id} className="w-8 h-8">
-                  <AvatarImage src={member.avatar} alt={member.name} />
-                  <AvatarFallback>{member.name[0]}</AvatarFallback>
-                </Avatar>
-              ))}
-            </div>
-            <div className="flex space-x-2">
-              <Input
-                placeholder="New member name"
-                value={newMember}
-                onChange={(e) => setNewMember(e.target.value)}
-              />
-              <Button onClick={addTeamMember} variant="secondary">
-                Add
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
 
-        <Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* <Card>
           <CardHeader>
             <CardTitle className="text-lg font-medium">Cars</CardTitle>
             <CardDescription>Your {`team's `} vehicles</CardDescription>
@@ -395,7 +368,7 @@ export default function Sarasa() {
               </DialogContent>
             </Dialog>
           </CardFooter>
-        </Card>
+        </Card> */}
       </div>
     </div>
   );

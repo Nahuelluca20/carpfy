@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@clerk/nextjs";
-import { createCar, getUserIdByClerkId } from "../queries";
+import { createCar } from "../queries";
+import { getUserIdByClerkId } from "@/actions/queries";
 
 const carFormSchema = z.object({
   name: z.string().min(1, "El nombre es requerido"),
@@ -23,10 +24,34 @@ const carFormSchema = z.object({
   model: z.string().min(1, "El modelo es requerido"),
   year: z.coerce.number().min(1900, "El año debe ser 1900 o posterior"),
   checks: z.string().optional(),
-  photoUrl: z.string().optional(),
+  photoUrl: z.any().optional(), // Cambiamos esto para aceptar cualquier valor
 });
 
 type CarFormData = z.infer<typeof carFormSchema>;
+
+async function uploadImageToCloudinary(file: File): Promise<string> {
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  const formData = new FormData();
+  formData.append("file", new Blob([buffer]), file.name);
+  formData.append("upload_preset", "sarasa"); // Reemplaza con tu upload preset de Cloudinary
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/ddonepbyh/image/upload`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Error al subir la imagen a Cloudinary");
+  }
+
+  const data = await response.json();
+  return data.secure_url;
+}
 
 export function CarForm() {
   const { userId: clerkUserId } = useAuth();
@@ -47,9 +72,13 @@ export function CarForm() {
     setIsSubmitting(true);
     try {
       const userId = await getUserIdByClerkId(String(clerkUserId));
-      console.log(data);
+      let photoUrl = "";
+      if (data.photoUrl instanceof File) {
+        photoUrl = await uploadImageToCloudinary(data.photoUrl);
+      }
       await createCar(userId, {
         ...data,
+        photoUrl,
       });
     } catch (error) {
       console.error("Error al guardar el coche:", error);
@@ -122,6 +151,23 @@ export function CarForm() {
                 <FormLabel>Checks</FormLabel>
                 <FormControl>
                   <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="photoUrl"
+            render={({ field }) => (
+              <FormItem className="w-full max-w-[300px]">
+                <FormLabel>Imagen del coche</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => field.onChange(e.target.files?.[0])}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
