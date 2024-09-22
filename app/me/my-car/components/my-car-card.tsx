@@ -36,13 +36,13 @@ export default async function MyCarCard() {
   const userId = await getUserIdByClerkId(user.id);
   const Cars: CarType[] = await getUserCars(userId);
 
-  const serializableCars = Cars.map(({ make, name, model, year, checks }) => ({
-    make,
-    name,
-    model,
-    year,
-    checks,
-  }));
+  // const serializableCars = Cars.map(({ make, name, model, year, checks }) => ({
+  //   make,
+  //   name,
+  //   model,
+  //   year,
+  //   checks,
+  // }));
 
   return (
     <Card>
@@ -56,29 +56,25 @@ export default async function MyCarCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {serializableCars.length === 0 ? (
-          <CarForm />
-        ) : (
-          serializableCars.map((carInfo, i) => (
-            <div className="space-y-2" key={i}>
-              <p>
-                <strong>Make:</strong> {carInfo.make}
-              </p>
-              <p>
-                <strong>Name:</strong> {carInfo.name}
-              </p>
-              <p>
-                <strong>Model:</strong> {carInfo.model}
-              </p>
-              <p>
-                <strong>Year:</strong> {carInfo.year}
-              </p>
-              <p>
-                <strong>Description:</strong> {carInfo.checks}
-              </p>
-            </div>
-          ))
-        )}
+        {Cars.map((carInfo, i) => (
+          <div className="space-y-2" key={i}>
+            <p>
+              <strong>Make:</strong> {carInfo.make}
+            </p>
+            <p>
+              <strong>Name:</strong> {carInfo.name}
+            </p>
+            <p>
+              <strong>Model:</strong> {carInfo.model}
+            </p>
+            <p>
+              <strong>Year:</strong> {carInfo.year}
+            </p>
+            <p>
+              <strong>Description:</strong> {carInfo.checks}
+            </p>
+          </div>
+        ))}
         <h2 className="text-2xl mt-10 font-bold mb-2">Add Car</h2>
         <CarForm />
       </CardContent>

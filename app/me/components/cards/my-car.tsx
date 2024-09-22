@@ -16,7 +16,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import { getUserIdByClerkId } from "@/actions/queries";
 
-export default async function MyCarCard() {
+export default async function MyCar() {
   const user = await currentUser();
   if (!user) {
     return <div>Please log in to view your car.</div>;
@@ -34,7 +34,7 @@ export default async function MyCarCard() {
               alt={`${MyCar?.model}` + ` ${MyCar?.name}`}
               className="object-cover w-full h-full"
               height="300"
-              src={`${MyCar?.photoUrl}`}
+              src={MyCar?.photoUrl ?? ""}
               width="400"
             />
           </div>

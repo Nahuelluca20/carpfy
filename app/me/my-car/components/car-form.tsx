@@ -24,7 +24,7 @@ const carFormSchema = z.object({
   model: z.string().min(1, "El modelo es requerido"),
   year: z.coerce.number().min(1900, "El año debe ser 1900 o posterior"),
   checks: z.string().optional(),
-  photoUrl: z.any().optional(), // Cambiamos esto para aceptar cualquier valor
+  photoUrl: z.any().optional(),
 });
 
 type CarFormData = z.infer<typeof carFormSchema>;
@@ -35,7 +35,7 @@ async function uploadImageToCloudinary(file: File): Promise<string> {
 
   const formData = new FormData();
   formData.append("file", new Blob([buffer]), file.name);
-  formData.append("upload_preset", "sarasa"); // Reemplaza con tu upload preset de Cloudinary
+  formData.append("upload_preset", "sarasa");
 
   const response = await fetch(
     `https://api.cloudinary.com/v1_1/ddonepbyh/image/upload`,
