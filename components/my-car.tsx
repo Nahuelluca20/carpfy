@@ -12,24 +12,22 @@ import { Button } from "@/components/ui/button";
 import { Car, Gauge, CarFront, ListChecks, Calendar } from "lucide-react";
 import Link from "next/link";
 import { getUserFirstCar } from "@/app/me/my-car/queries";
-import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
-import { getUserIdByClerkId } from "@/actions/queries";
 
-export default async function MyCar() {
-  const user = await currentUser();
-  if (!user) {
-    return <div>Please log in to view your car.</div>;
-  }
-
-  const userId = await getUserIdByClerkId(user.id);
+export default async function MyCar({
+  userId,
+  isMine = false,
+}: {
+  userId: string;
+  isMine?: boolean;
+}) {
   const MyCar = await getUserFirstCar(userId);
 
   return (
     <Card className="w-full mb-8 overflow-hidden">
       <div className="flex flex-col md:flex-row">
         <div className="md:w-2/5">
-          <div className="h-full w-full overflow-hidden">
+          <div className="h-full max-h-[300px] w-full overflow-hidden">
             <Image
               alt={`${MyCar?.model}` + ` ${MyCar?.name}`}
               className="object-cover w-full h-full"
@@ -63,15 +61,19 @@ export default async function MyCar() {
                 <Calendar className="h-4 w-4" />
                 <span>{MyCar?.year}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <ListChecks className="h-4 w-4" />
-                <span>{MyCar?.checks}</span>
+              <div className="flex justify-start items-center gap-2 ">
+                <div>
+                  <ListChecks className="h-4 w-4" />
+                </div>
+                <span className="max-h-20 truncate">{MyCar?.checks}</span>
               </div>
             </div>
           </CardContent>
           <CardFooter className="flex justify-end">
             <Button asChild>
-              <Link href={"me/my-car"}>View Details</Link>
+              <Link href={isMine ? "me/my-car" : `/team/car/${MyCar?.id}`}>
+                View Details
+              </Link>
             </Button>
           </CardFooter>
         </div>

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import React from "react";
 import { getInitials } from "@/utils/strings";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ITeam {
   teamName: string;
@@ -29,32 +30,36 @@ export default async function TeamMembers({ teams }: { teams: ITeam }) {
         <CardTitle className="text-lg font-medium">{teams.teamName}</CardTitle>
         <CardDescription>This is your team</CardDescription>
       </CardHeader>
-      <CardContent>
-        <div>
-          {teams.members.map((member) => (
-            <div
-              key={member.userId}
-              className="flex items-center flex-wrap gap-2 mb-4"
-            >
-              <Avatar className="w-8 h-8">
-                <AvatarImage
-                  src={member.user.imageUrl ?? ""}
-                  alt={`${member.user.firstName}` + ` ${member.user.lastName}`}
-                />
-                <AvatarFallback>
-                  {getInitials(
-                    String(member.user.firstName),
-                    String(member.user.lastName)
-                  )}
-                </AvatarFallback>
-              </Avatar>
-              <span className="font-semibold">
-                {member.user.firstName} {member.user.lastName}
-              </span>
-            </div>
-          ))}
-        </div>
-      </CardContent>
+      <ScrollArea type="always" className="max-h-[200px] h-full">
+        <CardContent>
+          <div>
+            {teams.members.map((member) => (
+              <div
+                key={member.userId}
+                className="flex items-center flex-wrap gap-2 mb-4"
+              >
+                <Avatar className="w-8 h-8">
+                  <AvatarImage
+                    src={member.user.imageUrl ?? ""}
+                    alt={
+                      `${member.user.firstName}` + ` ${member.user.lastName}`
+                    }
+                  />
+                  <AvatarFallback>
+                    {getInitials(
+                      String(member.user.firstName),
+                      String(member.user.lastName)
+                    )}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="font-semibold">
+                  {member.user.firstName} {member.user.lastName}
+                </span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </ScrollArea>
     </Card>
   );
 }
