@@ -1,9 +1,10 @@
 import MyCarCard from "../../components/my-car";
 import TeamMembersCard from "./components/cards/team-members";
 import TeamCars from "./components/cards/team-cars";
-import { getTeamMembersByUserId, getUserIdByClerkId } from "@/actions/queries";
+import { getUserIdByClerkId } from "@/actions/queries";
 import { currentUser } from "@clerk/nextjs/server";
 import { Metadata } from "next";
+import { getTeamMembersByUserId } from "@/actions/team-queries";
 
 export const metadata: Metadata = {
   title: "Carpfy | Dashboard",

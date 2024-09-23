@@ -10,9 +10,9 @@ import {
 
 import { Car } from "lucide-react";
 import { CarForm } from "./car-form";
-import { getUserCars } from "../queries";
 import { currentUser } from "@clerk/nextjs/server";
 import { getUserIdByClerkId } from "@/actions/queries";
+import { getUserCars } from "@/actions/car-queries";
 
 export type CarType = {
   id: string;

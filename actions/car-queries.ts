@@ -39,6 +39,17 @@ export async function getUserFirstCar(userId: string): Promise<Car | null> {
   return userCar.length > 0 ? userCar[0] : null;
 }
 
+export async function getCarById(carId: string) {
+  const Car = await db
+    .select()
+    .from(cars)
+    .where(eq(cars.id, carId))
+    .limit(1)
+    .execute();
+
+  return Car[0] ?? [];
+}
+
 export interface CarDetails {
   name: string;
   make: string;
@@ -47,6 +58,7 @@ export interface CarDetails {
   checks?: string;
   photoUrl?: string;
 }
+
 export async function createCar(userId: string, carDetails: CarDetails) {
   const newCar = await db
     .insert(cars)
@@ -83,25 +95,4 @@ export async function editCar(carId: string, carDetails: CarDetails) {
     .execute();
 
   return updatedCar;
-}
-
-export async function uploadImageToCloudinary(file: File): Promise<string> {
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "sarasa");
-
-  const response = await fetch(
-    `https://api.cloudinary.com/v1_1/ddonepbyh/image/upload`,
-    {
-      method: "POST",
-      body: formData,
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Error al subir la imagen a Cloudinary");
-  }
-
-  const data = await response.json();
-  return data.secure_url;
 }

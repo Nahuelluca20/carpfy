@@ -11,15 +11,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Car, Gauge, CarFront, ListChecks, Calendar } from "lucide-react";
 import Link from "next/link";
-import { getUserFirstCar } from "@/app/me/my-car/queries";
 import Image from "next/image";
+import { getUserFirstCar } from "@/actions/car-queries";
 
 export default async function MyCar({
   userId,
   isMine = false,
+  ownerName = "",
 }: {
   userId: string;
   isMine?: boolean;
+  teamId?: string;
+  ownerName?: string;
 }) {
   const MyCar = await getUserFirstCar(userId);
 
@@ -71,7 +74,13 @@ export default async function MyCar({
           </CardContent>
           <CardFooter className="flex justify-end">
             <Button asChild>
-              <Link href={isMine ? "me/my-car" : `/team/car/${MyCar?.id}`}>
+              <Link
+                href={
+                  isMine
+                    ? "me/my-car"
+                    : `/me/team/${ownerName}/car/${MyCar?.id}`
+                }
+              >
                 View Details
               </Link>
             </Button>

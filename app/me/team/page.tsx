@@ -1,7 +1,8 @@
-import { getTeamMembersByUserId, getUserIdByClerkId } from "@/actions/queries";
+import { getUserIdByClerkId } from "@/actions/queries";
 import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
 import MyCar from "@/components/my-car";
+import { getTeamMembersByUserId } from "@/actions/team-queries";
 
 export default async function page() {
   const user = await currentUser();
@@ -17,8 +18,13 @@ export default async function page() {
       No team members
     </section>
   ) : (
-    teams?.members.map((user, i) => (
-      <MyCar key={i + user.userId} userId={user.userId} />
+    teams?.members.map((member, i) => (
+      <MyCar
+        key={i + member.userId}
+        userId={member.userId}
+        teamId={teams.teamId}
+        ownerName={`${member.user.firstName}`}
+      />
     ))
   );
 }

@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@clerk/nextjs";
-import { createCar } from "../queries";
 import { getUserIdByClerkId } from "@/actions/queries";
+import { createCar } from "@/actions/car-queries";
 
 const carFormSchema = z.object({
   name: z.string().min(1, "El nombre es requerido"),

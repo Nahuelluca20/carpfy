@@ -1,3 +1,4 @@
+import { getTeamMemberCars } from "@/actions/team-queries";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -7,7 +8,6 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-import { getTeamMemberCars } from "../../queries";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function TeamCars({ teamId }: { teamId: string }) {
