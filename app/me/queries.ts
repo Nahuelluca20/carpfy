@@ -15,7 +15,7 @@ export async function getTeamMembersByUserId(userId: string) {
     .where(eq(teamMembers.userId, userId));
 
   if (!teamMembership.length) {
-    throw new Error("El usuario no pertenece a ningún equipo.");
+    return null;
   }
 
   const teamId = teamMembership[0].teamId;

@@ -18,8 +18,8 @@ export default async function Home() {
     <div>
       <MyCarCard />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <TeamMembersCard teams={teams} />
-        <TeamCars teamId={teams.teamId} />
+        {teams && <TeamMembersCard teams={teams} />}
+        {teams && <TeamCars teamId={teams.teamId} />}
       </div>
     </div>
   );
