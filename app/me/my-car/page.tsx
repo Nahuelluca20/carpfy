@@ -1,7 +1,6 @@
 "use server";
 
 import MyCarCard from "./components/my-car-card";
-import ProductLinksCard from "./components/product-links-card";
 import FutureModifications from "./components/future-modifications";
 import ProductsLinks from "./components/products-links";
 
