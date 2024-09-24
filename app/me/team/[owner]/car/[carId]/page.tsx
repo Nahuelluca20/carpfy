@@ -10,7 +10,7 @@ export default async function page({
   params: { owner: string; carId: string };
 }) {
   const car = await getCarById(params.carId);
-  console.log(car);
+
   return (
     <Card className="w-full max-w-3xl mx-auto">
       <CardHeader>

@@ -35,7 +35,6 @@ export default async function MyCarCard() {
 
   const userId = await getUserIdByClerkId(user.id);
   const Cars: CarType[] = await getUserCars(userId);
-  console.log(Cars);
 
   return (
     <Card className="w-full max-w-[526.2px]">

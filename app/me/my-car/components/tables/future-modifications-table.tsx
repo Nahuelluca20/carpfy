@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Table,
   TableHeader,
@@ -11,22 +9,21 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { format } from "date-fns";
-import {
-  deleteModification,
-  Modification,
-} from "@/actions/modifications-queries";
+import { deleteModification } from "@/actions/modifications-queries";
 
 interface FutureModificationsTableProps {
-  modifications: Modification[];
+  modifications: {
+    id: string | null;
+    date: Date | null;
+    description: string | null;
+    name: string | null;
+    carId: string | null;
+  }[];
 }
 
 export function FutureModificationsTable({
   modifications,
 }: FutureModificationsTableProps) {
-  const handleDeleteModification = async (id: string) => {
-    await deleteModification(id);
-  };
-
   return (
     <Table>
       <TableHeader>
@@ -40,18 +37,19 @@ export function FutureModificationsTable({
       <TableBody>
         {modifications.map((mod) => (
           <TableRow key={mod.id}>
-            <TableCell>{format(new Date(mod.date), "PP")}</TableCell>
+            <TableCell>
+              {format(new Date(mod.date ?? new Date()), "PP")}
+            </TableCell>
             <TableCell>{mod.name}</TableCell>
             <TableCell>{mod.description}</TableCell>
             <TableCell>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => handleDeleteModification(mod.id)}
-              >
-                <Trash className="h-4 w-4" />
-                <span className="sr-only">Delete modification</span>
-              </Button>
+              <form action={deleteModification}>
+                <input name="id" type="hidden" value={String(mod.id)} />
+                <Button variant="destructive" size="sm" type="submit">
+                  <Trash className="h-4 w-4" />
+                  <span className="sr-only">Delete modification</span>
+                </Button>
+              </form>
             </TableCell>
           </TableRow>
         ))}

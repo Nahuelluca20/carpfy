@@ -1,37 +1,57 @@
 "use server";
 
 import { db } from "@/lib/db/drizzle";
-import { cars } from "@/lib/db/schema/cars";
+import { modifications } from "@/lib/db/schema/modifications";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 export interface Modification {
   id: string;
   date: Date;
-  name: string;
   description: string;
+  name: string;
+  carId: string;
 }
 
-// This is a mock database. Replace with your actual database logic.
-let modifications: Modification[] = [];
-
-export async function getModifications() {
-  // In a real app, fetch this from your database
-  return modifications;
+export async function getModifications(carId: string) {
+  const modificationList = db
+    .select()
+    .from(modifications)
+    .where(eq(modifications.carId, carId));
+  return modificationList;
 }
 
 export async function addModification(modification: Omit<Modification, "id">) {
-  const newModification = {
-    ...modification,
-    id: Date.now().toString(),
-    date: new Date(modification.date),
-  };
-  modifications.push(newModification);
-  revalidatePath("/your-page-path");
-  return newModification;
+  const newModification = await db.insert(modifications).values({
+    date: modification.date,
+    carId: modification.carId,
+    description: modification.description,
+    name: modification.name,
+  });
+
+  if (newModification) {
+    revalidatePath("/me/my-car");
+    return "success";
+  }
+
+  return [null];
 }
 
-export async function deleteModification(id: string) {
-  modifications = modifications.filter((mod) => mod.id !== id);
-  revalidatePath("/your-page-path");
+export async function deleteModification(formData: FormData) {
+  const schema = z.object({
+    id: z.string().uuid(),
+  });
+  const data = schema.parse({
+    id: formData.get("id"),
+  });
+
+  try {
+    await db.delete(modifications).where(eq(modifications.id, data.id));
+
+    revalidatePath("/me/my-car");
+    return { message: `Deleted todo ${data.id}` };
+  } catch (e) {
+    return { message: `Failed to delete todo ${e}` };
+  }
 }

@@ -36,6 +36,13 @@
       "when": 1727137248912,
       "tag": "0004_equal_snowbird",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1727215921462,
+      "tag": "0005_right_mister_fear",
+      "breakpoints": true
     }
   ]
 }
