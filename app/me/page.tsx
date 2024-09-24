@@ -19,7 +19,6 @@ export default async function Home() {
 
   const userId = await getUserIdByClerkId(user.id);
   const teams = await getTeamMembersByUserId(userId);
-  console.log(teams);
 
   return (
     <div>

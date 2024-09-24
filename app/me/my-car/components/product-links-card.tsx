@@ -36,7 +36,7 @@ export default function ProductLinksCard() {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full max-w-[526.2px]">
       <CardHeader>
         <CardTitle className="text-xl font-bold">Product Links</CardTitle>
       </CardHeader>

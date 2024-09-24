@@ -1,3 +1,5 @@
+"use server";
+
 import { getUserIdByClerkId } from "@/actions/queries";
 import { currentUser } from "@clerk/nextjs/server";
 import React from "react";

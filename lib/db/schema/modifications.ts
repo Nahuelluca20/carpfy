@@ -10,7 +10,6 @@ export const modifications = pgTable("modifications", {
     .references(() => cars.id),
   date: timestamp("date", { withTimezone: true }).notNull(),
   name: text("name").notNull(),
-  usefulLinks: text("useful_links").array(),
   description: text("description"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),

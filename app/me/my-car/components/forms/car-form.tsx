@@ -89,6 +89,7 @@ export function CarForm() {
 
   return (
     <Form {...form}>
+      <h2 className="text-2xl mt-10 font-bold mb-2">Add Car</h2>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="flex flex-wrap gap-6 items-center">
           <FormField

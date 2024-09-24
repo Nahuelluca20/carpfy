@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 
 import { Car } from "lucide-react";
-import { CarForm } from "./car-form";
+import { CarForm } from "./forms/car-form";
 import { currentUser } from "@clerk/nextjs/server";
 import { getUserIdByClerkId } from "@/actions/queries";
 import { getUserCars } from "@/actions/car-queries";
@@ -35,17 +35,10 @@ export default async function MyCarCard() {
 
   const userId = await getUserIdByClerkId(user.id);
   const Cars: CarType[] = await getUserCars(userId);
-
-  // const serializableCars = Cars.map(({ make, name, model, year, checks }) => ({
-  //   make,
-  //   name,
-  //   model,
-  //   year,
-  //   checks,
-  // }));
+  console.log(Cars);
 
   return (
-    <Card>
+    <Card className="w-full max-w-[526.2px]">
       <CardHeader>
         <CardTitle className="text-2xl font-bold flex items-center gap-2">
           <Car className="h-6 w-6" />
@@ -75,16 +68,9 @@ export default async function MyCarCard() {
             </p>
           </div>
         ))}
-        <h2 className="text-2xl mt-10 font-bold mb-2">Add Car</h2>
-        <CarForm />
+
+        {Cars.length <= 0 && <CarForm />}
       </CardContent>
-      {/* <CardFooter>
-        <Button
-          onClick={isEditingCar ? handleSave : () => setIsEditingCar(true)}
-        >
-          {isEditingCar ? "Save Changes" : "Edit Car Info"}
-        </Button>
-      </CardFooter> */}
     </Card>
   );
 }

@@ -1,3 +1,4 @@
+"use server";
 import { getTeamMemberCars } from "@/actions/team-queries";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
