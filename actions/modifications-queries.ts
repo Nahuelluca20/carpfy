@@ -32,6 +32,7 @@ export async function addModification(modification: Omit<Modification, "id">) {
 
   if (newModification) {
     revalidatePath("/me/my-car");
+    revalidatePath("me/team/[owner]/car/[carId]", "page");
     return "success";
   }
 
@@ -50,6 +51,7 @@ export async function deleteModification(formData: FormData) {
     await db.delete(modifications).where(eq(modifications.id, data.id));
 
     revalidatePath("/me/my-car");
+    revalidatePath("me/team/[owner]/car/[carId]", "page");
     return { message: `Deleted todo ${data.id}` };
   } catch (e) {
     return { message: `Failed to delete todo ${e}` };

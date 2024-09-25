@@ -62,7 +62,7 @@ export default async function page({
           </div>
         </CardContent>
       </Card>
-      <div>
+      <div className="max-w-3xl mx-auto">
         {productsLinks && modifications && (
           <Card className="w-full lg:max-w-[400px]">
             <CardHeader>
@@ -79,7 +79,9 @@ export default async function page({
         {modifications && (
           <Card className="w-full lg:max-w-[400px] mt-8">
             <CardHeader>
-              <CardTitle className="text-xl font-bold">Product Links</CardTitle>
+              <CardTitle className="text-xl font-bold">
+                Future Modifications
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <FutureModificationsTable modifications={modifications} />

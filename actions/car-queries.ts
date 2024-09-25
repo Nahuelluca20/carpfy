@@ -75,6 +75,7 @@ export async function createCar(userId: string, carDetails: CarDetails) {
 
   if (newCar) {
     revalidatePath("me/my-car", "page");
+    revalidatePath("me/team");
   }
 
   return "created";

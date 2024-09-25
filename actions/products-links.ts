@@ -31,7 +31,8 @@ export async function addProductLink(product: Omit<Product, "id">) {
   });
 
   if (newModification) {
-    revalidatePath("/me/my-car");
+    revalidatePath("/me/my-car", "page");
+    revalidatePath("me/team/[owner]/car/[carId]", "page");
     return "success";
   }
 
@@ -50,6 +51,7 @@ export async function deleteProduct(formData: FormData) {
     await db.delete(productLinks).where(eq(productLinks.id, data.id));
 
     revalidatePath("/me/my-car");
+    revalidatePath("me/team/[owner]/car/[carId]", "page");
     return { message: `Deleted todo ${data.id}` };
   } catch (e) {
     return { message: `Failed to delete todo ${e}` };
